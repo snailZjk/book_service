@@ -96,7 +96,20 @@ router.post('/postComment', function (req, res, next){
   })
 });
 //用户点赞
-router.post('support', function (req, res, next){});
+router.post('support', function (req, res, next){
+  if(!req.body.movie_id) {
+    res.json({status: 1, message: "电影ID传递失败"});
+  }
+  movie.findById(req.body.movie_id, function (err, supportMovie){
+    //更新操作
+    movie.update({_id: req.body.movie_id}, {movieNumSuppose: supportMovie.movieNumSuppose + 1}, function (err) {
+      if(err){
+        res.json({status: 1, message: "用户点赞失败", data: err})
+      }
+      res.json({status: 0, message: "点赞成功"})
+    })
+  })
+});
 //用户找回密码
 router.post('/findPassword', function (req, res, next){
   if (req.body.repassword){
