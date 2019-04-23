@@ -13,3 +13,7 @@ var movie = new mongoose.Schema({
 movie.static.findById = function(movieId, callBack){
     this.find({movieId: movieId}, callBack);
 }
+
+var movieModel = mongoose.model('movie', movie)
+
+module.exports = movieModel
